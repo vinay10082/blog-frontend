@@ -1,0 +1,39 @@
+<div class="auth-container">
+  <div class="glass-card auth-card">
+    <h2>Join Us</h2>
+    <p class="subtitle">Create a new account</p>
+
+    <div *ngIf="error" class="error-banner">
+      {{ error }}
+    </div>
+
+    <div *ngIf="success" class="error-banner" style="background: rgba(34, 197, 94, 0.2); border-color: rgba(34, 197, 94, 0.5); color: #86efac;">
+      Registration successful! Redirecting...
+    </div>
+
+    <form (ngSubmit)="register()" *ngIf="!success">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" [(ngModel)]="user.username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" [(ngModel)]="user.email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" [(ngModel)]="user.password" required>
+      </div>
+
+      <button type="submit" class="btn auth-btn" [disabled]="loading || !user.username || !user.email || !user.password">
+        {{ loading ? 'Signing up...' : 'Sign Up' }}
+      </button>
+    </form>
+    
+    <p class="auth-footer" *ngIf="!success">
+      Already have an account? <a routerLink="/login">Log in here</a>
+    </p>
+  </div>
+</div>

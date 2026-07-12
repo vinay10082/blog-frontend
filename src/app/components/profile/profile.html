@@ -1,0 +1,26 @@
+<div class="profile-container">
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <div *ngIf="!loading && user" class="glass-card profile-card">
+    <div class="profile-header">
+      <div class="avatar">{{ user.username.charAt(0).toUpperCase() }}</div>
+      <div>
+        <h2>{{ user.username }}</h2>
+        <p class="email">{{ user.email }}</p>
+      </div>
+    </div>
+    
+    <div class="profile-stats">
+      <div class="stat">
+        <span class="stat-value">0</span>
+        <span class="stat-label">Posts</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">0</span>
+        <span class="stat-label">Comments</span>
+      </div>
+    </div>
+  </div>
+</div>

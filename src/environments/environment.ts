@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiGatewayUrl: 'http://localhost:8080'
+  apiUrl: '/api', // Relative path, routed by CloudFront to the EC2 Backend
+  commentsApiUrl: '/api' // Relative path, routed by CloudFront to the EC2 Backend
 };
