@@ -1,0 +1,24 @@
+<div class="home-container">
+  <div class="hero">
+    <h1>Welcome to the Blog</h1>
+    <p class="subtitle">Discover stories, thinking, and expertise.</p>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <div *ngIf="!loading && posts.length === 0" class="empty-state">
+    <h3>No posts yet.</h3>
+    <p>Be the first to create one!</p>
+    <a routerLink="/post/new" class="btn">Create Post</a>
+  </div>
+
+  <div class="posts-grid" *ngIf="!loading && posts.length > 0">
+    <div *ngFor="let post of posts" class="glass-card post-card">
+      <h2 class="post-title">{{ post.title }}</h2>
+      <p class="post-excerpt">{{ post.content | slice:0:150 }}{{ post.content.length > 150 ? '...' : '' }}</p>
+      <a [routerLink]="['/post', post.id]" class="read-more">Read More →</a>
+    </div>
+  </div>
+</div>

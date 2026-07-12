@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiGatewayUrl: 'http://localhost:8080'
+  apiUrl: 'http://localhost:8080/api', // Java Backend
+  commentsApiUrl: 'http://localhost:8082/api' // Go Backend
 };

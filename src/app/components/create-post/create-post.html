@@ -1,0 +1,38 @@
+<div class="create-post-container">
+  <a routerLink="/" class="back-link">← Back to Posts</a>
+  
+  <div class="glass-card">
+    <h1>Create a New Post</h1>
+    <p class="subtitle">Share your ideas with the world.</p>
+
+    <form (ngSubmit)="submitPost()">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input 
+          type="text" 
+          id="title" 
+          name="title" 
+          [(ngModel)]="post.title" 
+          placeholder="An interesting title..."
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="content">Content</label>
+        <textarea 
+          id="content" 
+          name="content" 
+          [(ngModel)]="post.content" 
+          rows="10" 
+          placeholder="Write your story here..."
+          required
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn submit-btn" [disabled]="!post.title.trim() || !post.content.trim() || submitting">
+        {{ submitting ? 'Publishing...' : 'Publish Post' }}
+      </button>
+    </form>
+  </div>
+</div>
