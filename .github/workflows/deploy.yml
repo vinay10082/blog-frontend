@@ -32,6 +32,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Rename index.csr.html to index.html
+        run: |
+          if [ -f dist/blog-frontend/browser/index.csr.html ]; then
+            mv dist/blog-frontend/browser/index.csr.html dist/blog-frontend/browser/index.html
+          fi
+
       - name: Deploy to S3
         run: aws s3 sync dist/blog-frontend/browser/ s3://${{ secrets.AWS_S3_BUCKET }} --delete
 
