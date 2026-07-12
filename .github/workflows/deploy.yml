@@ -38,6 +38,35 @@ jobs:
             mv dist/blog-frontend/browser/index.csr.html dist/blog-frontend/browser/index.html
           fi
 
+      - name: Configure CloudFront for SPA
+        run: |
+          # Fetch current config
+          aws cloudfront get-distribution-config --id ${{ secrets.AWS_CLOUDFRONT_DIST_ID }} > dist.json
+          ETAG=$(jq -r '.ETag' dist.json)
+          
+          # Patch config for DefaultRootObject and SPA routing (403/404 -> index.html)
+          jq '.DistributionConfig.DefaultRootObject = "index.html" | 
+              .DistributionConfig.CustomErrorResponses = {
+                "Quantity": 2,
+                "Items": [
+                  {
+                    "ErrorCode": 403,
+                    "ResponsePagePath": "/index.html",
+                    "ResponseCode": "200",
+                    "ErrorCachingMinTTL": 10
+                  },
+                  {
+                    "ErrorCode": 404,
+                    "ResponsePagePath": "/index.html",
+                    "ResponseCode": "200",
+                    "ErrorCachingMinTTL": 10
+                  }
+                ]
+              } | .DistributionConfig' dist.json > config.json
+          
+          # Update distribution
+          aws cloudfront update-distribution --id ${{ secrets.AWS_CLOUDFRONT_DIST_ID }} --if-match $ETAG --distribution-config file://config.json > /dev/null
+
       - name: Deploy to S3
         run: aws s3 sync dist/blog-frontend/browser/ s3://${{ secrets.AWS_S3_BUCKET }} --delete
 
